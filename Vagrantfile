@@ -35,7 +35,7 @@ Vagrant.configure("2") do |config|
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
-  # argument is a set of non-required options.  
+  # argument is a set of non-required options.
   # nfs_setting = RUBY_PLATFORM =~ /darwin/ || RUBY_PLATFORM =~ /linux/
   # config.vm.synced_folder "./data", "/vagrant_data", :nfs => nfs_setting
 
@@ -57,16 +57,6 @@ Vagrant.configure("2") do |config|
   #
   # View the documentation for the provider you're using for more
   # information on available options.
-
-  # Enable provisioning with Chef solo.
-  #config.vm.provision :chef_solo do |chef|
-  #  chef.cookbooks_path = "chef/cookbooks"
-  #  chef.roles_path = "chef/roles"
-  #  chef.data_bags_path = "chef/data_bags"
-
-  #  chef.add_recipe "dev"
-  #  chef.add_role("web")
-  #end
 
   # Enable provisioning with Puppet stand alone.  Puppet manifests
   # are contained in a directory path relative to this Vagrantfile.
