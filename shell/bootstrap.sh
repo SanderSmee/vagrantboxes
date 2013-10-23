@@ -13,8 +13,8 @@ echo "Timezone set!"
 
 # Install puppet
 if which puppet > /dev/null ; then
-        echo "Puppet is already installed"
-        exit 0
+    echo "Puppet is already installed"
+    exit 0
 fi
 
 echo "Installing Puppet repo for Ubuntu 12.04 LTS"
