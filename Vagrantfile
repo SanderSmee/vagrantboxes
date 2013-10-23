@@ -4,15 +4,11 @@
 Vagrant.configure("2") do |config|
   # Every Vagrant virtual environment requires a box to build off of.
   ## Ubuntu 12.04 LTS
-  config.vm.box = "precise64"
-  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+  config.vm.box = "puppetlabs-precise64"
+  config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210-nocm.box"
 
-  # Set the Timezone to something useful
-  config.vm.provision :shell, :inline => "echo \"UTC\" | sudo tee /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata"
-
-  # Update the server
-  config.vm.provision :shell, :inline => "apt-get update --fix-missing"
-
+  # Enable shell provisioning to bootstrap puppet
+  config.vm.provision :shell, :path => "bootstrap.sh"
 
   # BEGIN Landrush configuration ###############################################
   if Vagrant.has_plugin?('landrush')
