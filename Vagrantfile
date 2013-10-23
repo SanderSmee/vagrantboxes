@@ -47,14 +47,14 @@ Vagrant.configure("2") do |config|
       end
 
       # Provider-specific configuration so you can fine-tune various
-      # config.vm.provider :virtualbox do |vb|
-      #   vb.name =
-      #   vb.customize ["modifyvm", :id, "--memory", "1024"]
-      #   vb.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
-      #
-      #   # Borrowed from https://github.com/purple52/librarian-puppet-vagrant/
-      #   vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
-      # end
+      config.vm.provider :virtualbox do |vb|
+        vb.name = cfg[:hostname]
+        vb.customize ["modifyvm", :id, "--memory", "2048"]
+        vb.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+
+        # Borrowed from https://github.com/purple52/librarian-puppet-vagrant/
+        # vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
+      end
 
       # enable puppet
       local.vm.provision :puppet do |puppet|
