@@ -8,7 +8,7 @@ Vagrant.configure("2") do |config|
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
   # Set the Timezone to something useful
-  config.vm.provision :shell, :inline => "echo \"Europe/Amsterdam\" | sudo tee /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata"
+  config.vm.provision :shell, :inline => "echo \"UTC\" | sudo tee /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata"
 
   # Update the server
   config.vm.provision :shell, :inline => "apt-get update --fix-missing"
@@ -48,8 +48,7 @@ Vagrant.configure("2") do |config|
     pgsql_config.vm.provision :puppet do |puppet|
       puppet.facter = {
         "fqdn" => "pgsql.vagrant.dev",
-        "hostname" => "www",
-        "docroot" => '/vagrant/www/pyrocms/'
+        "hostname" => "pgsql"
       }
 
       puppet.options = "--verbose --debug"
