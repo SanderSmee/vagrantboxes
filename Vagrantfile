@@ -29,7 +29,7 @@ Vagrant.configure("2") do |config|
 
   # hosts
   {
-    :'puppet' => {
+    :'pgsql' => {
       :hostname   => 'pgsql.vagrant.dev',
       :ip         => '172.16.0.21',
       :puppetfile => 'base.pp',
@@ -39,7 +39,7 @@ Vagrant.configure("2") do |config|
     config.vm.define name do |local|
 
       local.vm.hostname = cfg[:hostname] if cfg[:hostname]
-      local.vm.network :private_network, cfg[:ip] if cfg[:ip]
+      local.vm.network :private_network, ip: cfg[:ip] if cfg[:ip]
 
       # use SSH private keys that are present on the host
       local.ssh.forward_agent = true
