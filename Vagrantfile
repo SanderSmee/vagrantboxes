@@ -13,6 +13,7 @@ Vagrant.configure("2") do |config|
   # Update the server
   config.vm.provision :shell, :inline => "apt-get update --fix-missing"
 
+
   # BEGIN Landrush configuration ###############################################
   if Vagrant.has_plugin?('landrush')
     config.landrush.enable
@@ -26,36 +27,55 @@ Vagrant.configure("2") do |config|
   end
   # END VBGuest configuration ##################################################
 
-  config.vm.define :postgresql do |pgsql_config|
-    # map pgsql.vagrant.dev to this IP
-    config.vm.network :private_network, ip: "172.16.0.21"
-    config.vm.hostname = "pgsql.vagrant.dev"
+  # hosts
+  {
+    :'pgsql' => {
+      :hostname   => 'pgsql.vagrant.dev',
+      :ip         => '172.16.0.21',
+      :puppetfile => 'base.pp',
+      :forwards   => { 80 => 8021, 443 => 44321 },
+    }
+  }.each do |name,cfg|
+    config.vm.define name do |local|
 
-    # use SSH private keys that are present on the host
-    config.ssh.forward_agent = true
+      local.vm.hostname = cfg[:hostname] if cfg[:hostname]
+      local.vm.network :private_network, ip: cfg[:ip] if cfg[:ip]
 
-    # Provider-specific configuration so you can fine-tune various
-    # config.vm.provider :virtualbox do |vb|
-    #   vb.name =
-    #   vb.customize ["modifyvm", :id, "--memory", "1024"]
-    #   vb.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
-    #
-    #   # Borrowed from https://github.com/purple52/librarian-puppet-vagrant/
-    #   vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
-    # end
+      # use SSH private keys that are present on the host
+      local.ssh.forward_agent = true
 
-    # enable puppet
-    pgsql_config.vm.provision :puppet do |puppet|
-      puppet.facter = {
-        "fqdn" => "pgsql.vagrant.dev",
-        "hostname" => "pgsql"
-      }
+      if cfg[:forwards]
+        cfg[:forwards].each do |from,to|
+          config.vm.network "forwarded_port", guest: from, host: to
+        end
+      end
 
-      puppet.options = "--verbose --debug"
-      puppet.manifest_file  = "base.pp"
-      puppet.manifests_path = "puppet/manifests"
-      puppet.module_path  = "puppet/modules"
+      # Provider-specific configuration so you can fine-tune various
+      # config.vm.provider :virtualbox do |vb|
+      #   vb.name =
+      #   vb.customize ["modifyvm", :id, "--memory", "1024"]
+      #   vb.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+      #
+      #   # Borrowed from https://github.com/purple52/librarian-puppet-vagrant/
+      #   vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
+      # end
+
+      # enable puppet
+      local.vm.provision :puppet do |puppet|
+        puppet.facter = {
+          "fqdn" => cfg[:hostname],
+          "hostname" => cfg[:hostname].split('.').first,
+          "vagrant" => 'yes'
+        }
+
+        puppet.manifests_path = "puppet/manifests"
+        puppet.module_path = "puppet/modules"
+        puppet.manifest_file = cfg[:puppetfile] if cfg[:puppetfile]
+        puppet.options = [
+          '--verbose',
+          '--debug',
+        ]
+      end
     end
-  end #vm.define :postgresql
-
+  end
 end
