@@ -8,7 +8,7 @@ Vagrant.configure("2") do |config|
   config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210-nocm.box"
 
   # Enable shell provisioning to bootstrap puppet
-  config.vm.provision :shell, :path => "bootstrap.sh"
+  config.vm.provision :shell, :path => "shell/bootstrap.sh"
 
   # Landrush configuration #####################################################
   if Vagrant.has_plugin?('landrush')
@@ -56,7 +56,7 @@ Vagrant.configure("2") do |config|
         vb.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
 
         # Borrowed from https://github.com/purple52/librarian-puppet-vagrant/
-        # vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
+        vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
       end
 
       # enable puppet
