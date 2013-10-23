@@ -2,23 +2,12 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  # Every Vagrant virtual environment requires a box to build off of.
-  ## Ubuntu 12.04.2 LTS
+  # Every Vagrant virtual environment requires a box to build off of: Ubuntu 12.04.2 LTS
   config.vm.box = "puppetlabs-precise64"
   config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210-nocm.box"
 
   # Enable shell provisioning to bootstrap puppet
   config.vm.provision :shell, :path => "shell/bootstrap.sh"
-
-  # Landrush configuration #####################################################
-  if Vagrant.has_plugin?('landrush')
-    config.landrush.enable
-  end
-
-  # VBGuest configuration ######################################################
-  if Vagrant.has_plugin?('vagrant-vbguest')
-    config.vbguest.auto_update = true
-  end
 
   # Guest boxes
   {
@@ -74,5 +63,15 @@ Vagrant.configure("2") do |config|
         ]
       end
     end
+  end
+
+  # Landrush configuration #####################################################
+  if Vagrant.has_plugin?('landrush')
+    config.landrush.enable
+  end
+
+  # VBGuest configuration ######################################################
+  if Vagrant.has_plugin?('vagrant-vbguest')
+    config.vbguest.auto_update = true
   end
 end
