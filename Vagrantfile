@@ -64,7 +64,8 @@ Vagrant.configure("2") do |config|
       local.vm.provision :puppet do |puppet|
         puppet.facter = {
           "fqdn" => cfg[:hostname],
-          "hostname" => cfg[:hostname].split('.').first
+          "hostname" => cfg[:hostname].split('.').first,
+          "vagrant" => 'yes'
         }
 
         puppet.manifests_path = "puppet/manifests"
