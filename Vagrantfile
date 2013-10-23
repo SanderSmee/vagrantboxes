@@ -46,7 +46,7 @@ Vagrant.configure("2") do |config|
 
       if cfg[:forwards]
         cfg[:forwards].each do |from,to|
-          local.vm.forward_port from, to
+          config.vm.network "forwarded_port", guest: from, host: to
         end
       end
 
