@@ -25,13 +25,11 @@ Vagrant.configure("2") do |config|
     :'pgsql' => {
       :hostname   => 'pgsql.vagrant.dev',
       :ip         => '172.16.0.21',
-      :puppetfile => 'base.pp',
       :forwards   => { 80 => 8021, 443 => 44321 },
     },
     :'appsrv' => {
       :hostname   => 'appsrv.vagrant.dev',
       :ip         => '172.16.0.22',
-      :puppetfile => 'base.pp',
       :forwards   => { 80 => 8022, 443 => 44322 },
     }
   }.each do |name,cfg|
@@ -69,7 +67,7 @@ Vagrant.configure("2") do |config|
 
         puppet.manifests_path = "puppet/manifests"
         puppet.module_path = "puppet/modules"
-        puppet.manifest_file = cfg[:puppetfile] if cfg[:puppetfile]
+        puppet.manifest_file = "base.pp"
         puppet.options = [
           '--verbose',
           '--debug',
