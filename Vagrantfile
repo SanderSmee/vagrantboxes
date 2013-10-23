@@ -3,33 +3,36 @@
 
 Vagrant.configure("2") do |config|
   # Every Vagrant virtual environment requires a box to build off of.
-  ## Ubuntu 12.04 LTS
+  ## Ubuntu 12.04.2 LTS
   config.vm.box = "puppetlabs-precise64"
   config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210-nocm.box"
 
   # Enable shell provisioning to bootstrap puppet
   config.vm.provision :shell, :path => "bootstrap.sh"
 
-  # BEGIN Landrush configuration ###############################################
+  # Landrush configuration #####################################################
   if Vagrant.has_plugin?('landrush')
     config.landrush.enable
   end
-  # END Landrush configuration #################################################
 
-  # BEGIN VBGuest configuration ################################################
-  # Borrowed from http://goo.gl/JSeN7H
+  # VBGuest configuration ######################################################
   if Vagrant.has_plugin?('vagrant-vbguest')
     config.vbguest.auto_update = true
   end
-  # END VBGuest configuration ##################################################
 
-  # hosts
+  # Guest boxes
   {
     :'pgsql' => {
       :hostname   => 'pgsql.vagrant.dev',
       :ip         => '172.16.0.21',
       :puppetfile => 'base.pp',
       :forwards   => { 80 => 8021, 443 => 44321 },
+    },
+    :'appsrv' => {
+      :hostname   => 'appsrv.vagrant.dev',
+      :ip         => '172.16.0.22',
+      :puppetfile => 'base.pp',
+      :forwards   => { 80 => 8022, 443 => 44322 },
     }
   }.each do |name,cfg|
     config.vm.define name do |local|
