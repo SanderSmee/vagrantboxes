@@ -2,10 +2,6 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  # Every Vagrant virtual environment requires a box to build off of: Ubuntu 12.04.2 LTS
-  config.vm.box = "puppetlabs-precise64"
-  config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210-nocm.box"
-
   # Enable shell provisioning to bootstrap puppet
   config.vm.provision :shell, :path => "shell/bootstrap.sh"
 
@@ -26,6 +22,14 @@ Vagrant.configure("2") do |config|
 
       local.vm.hostname = cfg[:hostname] if cfg[:hostname]
       local.vm.network :private_network, ip: cfg[:ip] if cfg[:ip]
+
+      # Every Vagrant virtual environment requires a box to build off of, defaults to Ubuntu 12.04.2 LTS
+      local.vm.box_url = case cfg[:os]
+        when 'Centos6' then 'http://puppet-vagrant-boxes.puppetlabs.com/centos-64-x64-vbox4210-nocm.box'
+        when 'Ubuntu1204' then  'http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210-nocm.box'
+        else 'http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210-nocm.box'
+      end
+      local.vm.box = local.vm.box_url.split('/').last
 
       # use SSH private keys that are present on the host
       local.ssh.forward_agent = true
