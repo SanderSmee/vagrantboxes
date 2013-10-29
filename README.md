@@ -7,6 +7,9 @@ www.vagrantup.com
 Er is een [goede tutorial](
 http://blog.kloudless.com/2013/07/01/automating-development-environments-with-vagrant-and-puppet/) online te vinden.
 
+### Added
++   puppetlabs/postgresql
+
 ### TODO
 +   puppi
 +   facter
