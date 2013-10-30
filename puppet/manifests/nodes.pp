@@ -11,11 +11,18 @@ node 'postgresql.vagrant.dev' {
 	}
 
 	postgresql::server::db { 'mydatabasename':
-	  user     => 'mydatabaseuser',
-	  password => postgresql_password('mydatabaseuser', 'mypassword'),
+		user     => 'mydatabaseuser',
+		password => postgresql_password('mydatabaseuser', 'mypassword'),
 	}
 }
 
 node 'tomcat.vagrant.dev' {
+	class { 'java':
+		distribution => 'jdk',
+		version      => 'latest',
+	}
 
+	class { 'tomcat':
+		package => 'tomcat7',
+	}
 }
