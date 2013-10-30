@@ -5,12 +5,11 @@ Vagrant.configure("2") do |config|
   # Enable shell provisioning to bootstrap puppet
   config.vm.provision :shell, :path => "shell/bootstrap.sh"
 
-  # Guest boxes
+  # Guest boxes definitions ####################################################
   {
     :'postgresql' => {
       :hostname   => 'postgresql.vagrant.dev',
       :ip         => '172.16.0.21',
-      :forwards   => { 80 => 8021, 443 => 44321 },
     },
     :'tomcat' => {
       :hostname   => 'tomcat.vagrant.dev',
@@ -43,8 +42,8 @@ Vagrant.configure("2") do |config|
       # Provider-specific configuration so you can fine-tune various
       config.vm.provider :virtualbox do |vb|
         vb.name = cfg[:hostname]
-        vb.customize ["modifyvm", :id, "--memory", "1024"]
-        vb.customize ["modifyvm", :id, "--cpuexecutioncap", "40"]
+        vb.customize ["modifyvm", :id, "--memory", "512"]
+        vb.customize ["modifyvm", :id, "--cpuexecutioncap", "20"]
 
         # Borrowed from https://github.com/purple52/librarian-puppet-vagrant/
         vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
