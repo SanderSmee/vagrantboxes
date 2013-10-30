@@ -21,4 +21,8 @@ node 'tomcat.vagrant.dev' {
 		distribution => 'jdk',
 		version      => 'latest',
 	}
+
+	class { 'tomcat':
+		package => 'tomcat7',
+	}
 }
