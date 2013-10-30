@@ -9,6 +9,9 @@ http://blog.kloudless.com/2013/07/01/automating-development-environments-with-va
 
 ### Added
 +   puppetlabs/postgresql
++   puppetlabs/java
++   seteam/tomcat
++   ___https://github.com/neo4j-contrib/neo4j-puppet___ of https://github.com/soluvas/puppet-neo4j
 
 ### TODO
 +   puppi

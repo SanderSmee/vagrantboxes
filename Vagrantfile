@@ -11,6 +11,10 @@ Vagrant.configure("2") do |config|
       :hostname   => 'postgresql.vagrant.dev',
       :ip         => '172.16.0.21',
     },
+    :'neo4j' => {
+      :hostname   => 'neo4j.vagrant.dev',
+      :ip         => '172.16.0.23',
+    },
     :'tomcat' => {
       :hostname   => 'tomcat.vagrant.dev',
       :ip         => '172.16.0.22',

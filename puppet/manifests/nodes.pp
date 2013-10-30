@@ -26,3 +26,8 @@ node 'tomcat.vagrant.dev' {
 		package => 'tomcat7',
 	}
 }
+
+node 'neo4j.vagrant.dev' {
+	class { 'neo4j':
+	}
+}
