@@ -16,6 +16,10 @@ Vagrant.configure("2") do |config|
       :ip         => '172.16.0.22',
       :forwards   => { 80 => 8022, 443 => 44322 },
     },
+    :'neo4j' => {
+      :hostname   => 'neo4j.vagrant.dev',
+      :ip         => '172.16.0.23',
+    },
   }.each do |name,cfg|
     config.vm.define name do |local|
 
