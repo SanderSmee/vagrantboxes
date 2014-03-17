@@ -10,6 +10,7 @@ Vagrant.configure("2") do |config|
     :'postgresql' => {
       :hostname   => 'postgresql.vagrant.dev',
       :ip         => '172.16.0.21',
+      :forwards   => { 5432 => 5432 },
     },
     :'neo4j' => {
       :hostname   => 'neo4j.vagrant.dev',
@@ -46,8 +47,11 @@ Vagrant.configure("2") do |config|
       # Provider-specific configuration so you can fine-tune various
       config.vm.provider :virtualbox do |vb|
         vb.name = cfg[:hostname]
-        vb.customize ["modifyvm", :id, "--memory", "512"]
-        vb.customize ["modifyvm", :id, "--cpuexecutioncap", "20"]
+        vb.customize ["modifyvm", :id, "--memory", "2048"]
+        vb.customize ["modifyvm", :id, "--cpus", "2"]
+        vb.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+        vb.customize ["modifyvm", :id, "--chipset", "ich9"]
+        vb.customize ["modifyvm", :id, "--vram", "9"]
 
         # Borrowed from https://github.com/purple52/librarian-puppet-vagrant/
         vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
@@ -66,7 +70,6 @@ Vagrant.configure("2") do |config|
         puppet.manifest_file = "site.pp"
         puppet.options = [
           '--verbose',
-          '--debug',
         ]
       end
     end

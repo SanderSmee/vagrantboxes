@@ -2,7 +2,7 @@ node 'postgresql.vagrant.dev' {
 	class { 'postgresql::globals':
 		manage_package_repo => true,
 		encoding => 'UTF-8',
-	  	version  => '9.3',
+	  	version  => '9.2',
 	}
 
 	class { 'postgresql::server':
@@ -10,9 +10,25 @@ node 'postgresql.vagrant.dev' {
 		listen_addresses        => '*',
 	}
 
-	postgresql::server::db { 'mydatabasename':
-		user     => 'mydatabaseuser',
-		password => postgresql_password('mydatabaseuser', 'mypassword'),
+	postgresql::server::role { 'brp':
+		password_hash => postgresql_password('brp', 'brp'),
+		createdb      => true,
+		login         => true,
+		superuser     => true
+	}
+
+
+	postgresql::server::database { 'brp':
+		owner => 'brp',
+	}
+	postgresql::server::database { 'brpjunit':
+		owner => 'brp',
+	}
+	postgresql::server::database { 'artdata':
+		owner => 'brp',
+	}
+	postgresql::server::database { 'whitebox':
+		owner => 'brp',
 	}
 }
 
