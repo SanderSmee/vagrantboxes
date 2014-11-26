@@ -19,7 +19,7 @@ Vagrant.configure("2") do |config|
     :'tomcat' => {
       :hostname   => 'tomcat.vagrant.dev',
       :ip         => '172.16.0.22',
-      :forwards   => { 80 => 8022, 443 => 44322 },
+      :forwards   => { 8080 => 8080, 443 => 44322 },
     },
   }.each do |name,cfg|
     config.vm.define name do |local|

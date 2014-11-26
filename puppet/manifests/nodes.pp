@@ -12,23 +12,20 @@ node 'postgresql.vagrant.dev' {
 
 	postgresql::server::role { 'brp':
 		password_hash => postgresql_password('brp', 'brp'),
-		createdb      => true,
 		login         => true,
-		superuser     => true
 	}
-
 
 	postgresql::server::database { 'brp':
 		owner => 'brp',
+		require => Postgresql::Server::Role['brp'],
 	}
 	postgresql::server::database { 'brpjunit':
 		owner => 'brp',
+		require => Postgresql::Server::Role['brp'],
 	}
-	postgresql::server::database { 'artdata':
+	postgresql::server::database { 'art-brp':
 		owner => 'brp',
-	}
-	postgresql::server::database { 'whitebox':
-		owner => 'brp',
+		require => Postgresql::Server::Role['brp'],
 	}
 }
 
