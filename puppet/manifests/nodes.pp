@@ -44,3 +44,37 @@ node 'neo4j.vagrant.dev' {
 	class { 'neo4j':
 	}
 }
+
+node 'mysql.vagrant.dev' {
+	class { '::mysql::server':
+		root_password           => 'root',
+		remove_default_accounts => false,
+		restart                 => true,
+		override_options => { 'mysqld' => { 'max_connections' => '1024' } }
+
+		databases => {
+		  'iddd_common_test' => {
+		    ensure  => 'present',
+		    charset => 'utf8',
+		  },
+		  'iddd_iam' => {
+		    ensure  => 'present',
+		    charset => 'utf8',
+		  },
+		  'iddd_collaboration' => {
+		    ensure  => 'present',
+		    charset => 'utf8',
+		  },
+		},
+
+		grants => {
+		  'root@localhost/*.*' => {
+		    ensure     => 'present',
+		    options    => ['GRANT'],
+		    privileges => ['ALL'],
+		    table      => '*.*',
+		    user       => 'root@localhost',
+		  },
+		}
+	}
+}

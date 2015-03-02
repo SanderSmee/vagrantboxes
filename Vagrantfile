@@ -15,6 +15,12 @@ Vagrant.configure("2") do |config|
     :'neo4j' => {
       :hostname   => 'neo4j.vagrant.dev',
       :ip         => '172.16.0.23',
+      :forwards   => { 7474 => 7474 },
+    },
+    :'mysql' => {
+      :hostname   => 'mysql.vagrant.dev',
+      :ip         => '172.16.0.24',
+      :forwards   => { 3306 => 3306 },
     },
     :'tomcat' => {
       :hostname   => 'tomcat.vagrant.dev',
@@ -31,7 +37,7 @@ Vagrant.configure("2") do |config|
       local.vm.box_url = case cfg[:os]
         when 'Centos65' then 'http://puppet-vagrant-boxes.puppetlabs.com/centos-65-x64-virtualbox-nocm.box'
         when 'Ubuntu1204' then  'http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210-nocm.box'
-        when 'Debian73' then 'http://puppet-vagrant-boxes.puppetlabs.com/debian-73-i386-virtualbox-nocm.box'
+        when 'Debian73' then 'http://puppet-vagrant-boxes.puppetlabs.com/debian-73-x64-virtualbox-nocm.box'
         else 'http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210-nocm.box'
       end
       local.vm.box = local.vm.box_url.split('/').last
